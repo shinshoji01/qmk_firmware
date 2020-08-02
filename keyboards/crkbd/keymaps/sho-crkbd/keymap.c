@@ -1,0 +1,329 @@
+#include QMK_KEYBOARD_H
+
+
+#ifdef RGBLIGHT_ENABLE
+//Following line allows macro to read current RGB settings
+extern rgblight_config_t rgblight_config;
+#endif
+
+extern uint8_t is_master;
+
+// Each layer gets a name for readability, which is then used in the keymap matrix below.
+// The underscores don't mean anything - you can have a layer called STUFF or any other name.
+// Layer names don't all need to be of the same length, obviously, and you can also skip them
+// entirely and just use numbers.
+#define _L0 0
+#define _L1 1
+#define _L2 2
+#define _L3 3
+#define _L4 4
+
+enum custom_keycodes {
+  MC_MAIL1 = SAFE_RANGE,
+  MC_MAIL2,
+  MC_MAIL3,
+  MC_HOME,
+  MC_END,
+  MC_AL,
+  MC_WORD,
+  MC_LINE,
+  MC_YANK,
+  MC_PASTE,
+  MC_UNDO,
+  MC_REDO,
+  MC_DOWN,
+  MC_UP,
+  MC_RIGHT,
+  MC_LEFT,
+  MC_CNTR,
+  MC_BTTM,
+  MC_CLNG,
+};
+
+#define KC_L1 MO(_L1)
+#define KC_L2 MO(_L2)
+#define KC_L3 MO(_L3)
+#define KC_L4 MO(_L4)
+
+#define ESCL2 LT(_L2, KC_ESC)
+#define SPL3 LT(_L3, KC_SPC)
+
+enum macro_keycodes {
+  KC_SAMPLEMACRO,
+};
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  [_L0] = LAYOUT( \
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSLS,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_LGUI,   KC_L1,   SPL3,     KC_ENT,  ESCL2,  KC_RALT \
+                                      //`--------------------------'  `--------------------------'
+
+  ),
+
+  [_L1] = LAYOUT( \
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_ESC, KC_EXLM,   KC_AT, KC_HASH, KC_PERC, KC_AMPR,                      KC_ASTR, KC_CIRC, KC_UNDS,  KC_EQL,  KC_DLR,  KC_GRV,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LCTL, MC_HOME, MC_CLNG, MC_BTTM,  MC_END, KC_BSPC,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_SCLN, KC_QUOT,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PLUS, KC_MINS, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_LGUI,   KC_L1,  KC_SPC,     KC_ENT,  KC_L4, KC_RALT \
+                                      //`--------------------------'  `--------------------------'
+    ),
+
+  [_L2] = LAYOUT( \
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_ESC, XXXXXXX, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR,                      KC_BSPC,    KC_7,    KC_8,    KC_9, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LCTL, XXXXXXX, KC_LPRN, KC_RPRN, XXXXXXX, XXXXXXX,                        KC_P0,    KC_4,    KC_5,    KC_6, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_DOT,    KC_1,    KC_2,    KC_3, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_LGUI,   KC_L4,  KC_SPC,     KC_ENT,   KC_L2, KC_RALT \
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  [_L3] = LAYOUT( \
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, XXXXXXX, MC_WORD, MC_CNTR, MC_REDO, XXXXXXX,                      MC_YANK, MC_UNDO, MC_LINE,   MC_AL,MC_PASTE, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, MC_DOWN,   MC_UP,MC_RIGHT, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_BSPC,MC_MAIL1,MC_MAIL2,MC_MAIL3, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_LGUI, XXXXXXX,  KC_SPC,     KC_ENT, XXXXXXX, KC_RALT \
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  [_L4] = LAYOUT( \
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_F12,   KC_F7,   KC_F8,   KC_F9,  KC_INS, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_F11,   KC_F4,   KC_F5,   KC_F6, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       KC_F10,   KC_F1,   KC_F2,   KC_F3, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_LGUI, XXXXXXX,  KC_SPC,     KC_ENT, XXXXXXX, KC_RALT \
+                                      //`--------------------------'  `--------------------------'
+  )
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    case MC_MAIL1:
+        if (record->event.pressed) {
+            SEND_STRING("shoshoinoue@icloud.com");
+        } else {
+        }
+        break;
+
+    case MC_MAIL2:
+        if (record->event.pressed) {
+            SEND_STRING("shoshoinoue@gmail.com");
+        } else {
+        }
+        break;
+
+    case MC_MAIL3:
+        if (record->event.pressed) {
+            SEND_STRING("s-inoue-tgz@eagle.sophia.ac.jp");
+        } else {
+        }
+        break;
+
+    case MC_HOME: // HOME for Mac
+      if (record->event.pressed) {
+  		register_code(KC_LGUI);
+		register_code(KC_LEFT);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_LEFT);
+      }
+      break;
+
+    case MC_END: // END for Mac
+      if (record->event.pressed) {
+  		register_code(KC_LGUI);
+		register_code(KC_RIGHT);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_RIGHT);
+      }
+      break;
+
+    case MC_AL: // Add Line
+      if (record->event.pressed) {
+		register_code(KC_LGUI);
+		register_code(KC_RIGHT);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_RIGHT);
+		tap_code(KC_ENT);
+      }
+      break;
+
+    case MC_WORD: // Blanket one word
+      if (record->event.pressed) {
+		register_code(KC_LALT);
+		register_code(KC_LEFT);
+      } else {
+		unregister_code(KC_LALT);
+		unregister_code(KC_LEFT);
+      }
+
+      if (record->event.pressed) {
+		register_code(KC_LALT);
+		register_code(KC_LSFT);
+		register_code(KC_RIGHT);
+      } else {
+		unregister_code(KC_LALT);
+		unregister_code(KC_LSFT);
+		unregister_code(KC_RIGHT);
+      }
+      break;
+
+    case MC_LINE: // Blanket whole line
+      if (record->event.pressed) {
+		register_code(KC_LGUI);
+		register_code(KC_LEFT);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_LEFT);
+      }
+
+      if (record->event.pressed) {
+		register_code(KC_LSFT);
+		register_code(KC_LGUI);
+		register_code(KC_RIGHT);
+      } else {
+		unregister_code(KC_LSFT);
+		unregister_code(KC_LGUI);
+		unregister_code(KC_RIGHT);
+      }
+      break;
+
+    case MC_YANK: // yank
+      if (record->event.pressed) {
+		register_code(KC_LGUI);
+		register_code(KC_C);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_C);
+      }
+      break;
+
+    case MC_PASTE: // paste
+      if (record->event.pressed) {
+		register_code(KC_LGUI);
+		register_code(KC_V);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_V);
+      }
+      break;
+
+    case MC_UNDO: // undo
+      if (record->event.pressed) {
+		register_code(KC_LGUI);
+		register_code(KC_Z);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_Z);
+      }
+      break;
+
+    case MC_REDO: // redo
+      if (record->event.pressed) {
+		register_code(KC_LGUI);
+		register_code(KC_LSFT);
+		register_code(KC_Z);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_LSFT);
+		unregister_code(KC_Z);
+      }
+      break;
+
+    case MC_CNTR: // set a cursor to the center
+      if (record->event.pressed) {
+		register_code(KC_LCTL);
+		register_code(KC_L);
+      } else {
+		unregister_code(KC_LCTL);
+		unregister_code(KC_L);
+      }
+      break;
+
+    case MC_BTTM: // move to the bottom.
+      if (record->event.pressed) {
+		register_code(KC_LGUI);
+		register_code(KC_DOWN);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_DOWN);
+      }
+      break;
+
+    case MC_CLNG: // move to the ceiling.
+      if (record->event.pressed) {
+		register_code(KC_LGUI);
+		register_code(KC_UP);
+      } else {
+		unregister_code(KC_LGUI);
+		unregister_code(KC_UP);
+      }
+      break;
+
+    case MC_LEFT: // LEFT by word
+      if (record->event.pressed) {
+		register_code(KC_LALT);
+		register_code(KC_LEFT);
+      } else {
+		unregister_code(KC_LALT);
+		unregister_code(KC_LEFT);
+      }
+
+      break;
+
+    case MC_RIGHT: // RIGHT by word
+      if (record->event.pressed) {
+		register_code(KC_LALT);
+		register_code(KC_RIGHT);
+      } else {
+		unregister_code(KC_LALT);
+		unregister_code(KC_RIGHT);
+      }
+
+      break;
+
+    case MC_DOWN: // DOWN by 5 lines
+      if (record->event.pressed) {
+		tap_code(KC_DOWN);
+		tap_code(KC_DOWN);
+		tap_code(KC_DOWN);
+		tap_code(KC_DOWN);
+		tap_code(KC_DOWN);
+	}
+      break;
+
+    case MC_UP: // UP by 5 lines
+      if (record->event.pressed) {
+		tap_code(KC_UP);
+		tap_code(KC_UP);
+		tap_code(KC_UP);
+		tap_code(KC_UP);
+		tap_code(KC_UP);
+	}
+      break;
+
+    }
+    return true;
+};
+
