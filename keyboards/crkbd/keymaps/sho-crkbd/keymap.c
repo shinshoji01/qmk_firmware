@@ -46,7 +46,7 @@ enum custom_keycodes {
 #define KC_L4 MO(_L4)
 
 #define ESCL2 LT(_L2, KC_ESC)
-#define SPL3 LT(_L3, KC_SPC)
+#define ENTL3 LT(_L3, KC_ENT)
 
 enum macro_keycodes {
   KC_SAMPLEMACRO,
@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   KC_L1,   SPL3,     KC_ENT,  ESCL2,  KC_RALT \
+                                          KC_LGUI,   KC_L1,  KC_SPC,     ENTL3,  ESCL2,  KC_RALT \
                                       //`--------------------------'  `--------------------------'
 
   ),
