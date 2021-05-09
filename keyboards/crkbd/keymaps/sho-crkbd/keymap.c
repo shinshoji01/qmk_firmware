@@ -22,6 +22,7 @@ enum custom_keycodes {
   MC_MAIL1 = SAFE_RANGE,
   MC_MAIL2,
   MC_MAIL3,
+  MC_MAIL4,
   MC_HOME,
   MC_END,
   MC_AL,
@@ -46,7 +47,6 @@ enum custom_keycodes {
 #define KC_L4 MO(_L4)
 
 #define ESCL2 LT(_L2, KC_ESC)
-#define ENTL3 LT(_L3, KC_ENT)
 
 enum macro_keycodes {
   KC_SAMPLEMACRO,
@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   KC_L1,  KC_SPC,     ENTL3,  ESCL2,  KC_RALT \
+                                          KC_LGUI,   KC_L1,  KC_SPC,    KC_ENT,  ESCL2,     KC_L3\
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC, KC_EXLM,   KC_AT, KC_HASH, KC_PERC, KC_AMPR,                      KC_ASTR, KC_CIRC, KC_UNDS,  KC_EQL,  KC_DLR,  KC_GRV,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, MC_HOME, MC_CLNG, MC_BTTM,  MC_END, KC_BSPC,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_SCLN, KC_QUOT,\
+      KC_LCTL, MC_HOME, MC_BTTM, MC_CLNG,  MC_END, KC_BSPC,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, KC_SCLN, KC_QUOT,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_PLUS, KC_MINS, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -96,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, MC_DOWN,   MC_UP,MC_RIGHT, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_BSPC,MC_MAIL1,MC_MAIL2,MC_MAIL3, XXXXXXX, XXXXXXX,\
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_BSPC,MC_MAIL1,MC_MAIL2,MC_MAIL3,MC_MAIL4, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI, XXXXXXX,  KC_SPC,     KC_ENT, XXXXXXX, KC_RALT \
                                       //`--------------------------'  `--------------------------'
@@ -134,6 +134,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case MC_MAIL3:
         if (record->event.pressed) {
             SEND_STRING("s-inoue-tgz@eagle.sophia.ac.jp");
+        } else {
+        }
+        break;
+
+    case MC_MAIL4:
+        if (record->event.pressed) {
+            SEND_STRING("sho@connected-robotics.com");
         } else {
         }
         break;
